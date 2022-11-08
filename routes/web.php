@@ -38,9 +38,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->put('taches/{id}/complet', ['uses' => 'TacheController@completed']);
 
 
-
-    //authentification ajouter les lignes ci-dessous
-
     //inscription
     // api/register
     $router->post('register', 'AuthController@register');
@@ -52,6 +49,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('refresh', 'AuthController@refresh');
     // api/me
     $router->post('me', 'AuthController@me');
+
 
 
 

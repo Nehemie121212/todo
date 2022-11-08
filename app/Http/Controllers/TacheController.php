@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class TacheController extends Controller
 {
+
+    public function __construct()
+    {
+        // Ce controlleur n'est accessible qu'avec un JWT valide
+        $this->middleware('auth');
+    }
+
     /**
      * Affiche toutes les taches
      *
