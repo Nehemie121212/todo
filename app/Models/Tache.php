@@ -50,7 +50,9 @@ class Tache extends Model
         'contenu',
         'ordre',
         'complet',
-        'date_fin'
+        'date_fin',
+        //ajouter la nouvelle colonne
+        'utilisateur_id'
     ];
 
     /**
@@ -63,4 +65,5 @@ class Tache extends Model
         'created_at',
         'updated_at'
     ];
+
 }

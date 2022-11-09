@@ -45,4 +45,11 @@ class Utilisateur extends Model implements AuthenticatableContract, Authorizable
         'email',
         'password'
     ];
+    /**
+     * Get the users for the utilisateur.
+     */
+    public function taches()
+    {
+        return $this->hasMany(Tache::class);
+    }
 }

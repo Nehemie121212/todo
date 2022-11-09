@@ -16,30 +16,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
 // Création du groupr api : http://localhost:8000/api/
 $router->group(['prefix' => 'api'], function () use ($router) {
 
-    // Toutes les tâches
-    $router->get('taches',  ['uses' => 'TacheController@showAllTasks']);
-
-    // Détail d'une tâche
-    $router->get('taches/{id}', ['uses' => 'TacheController@showOneTask']);
-
-    // Ajout d'une tâche
-    $router->post('taches', ['uses' => 'TacheController@create']);
-
-    // Suppression d'une tâche
-    $router->delete('taches/{id}', ['uses' => 'TacheController@delete']);
-
-    // Modification d'une tâche
-    $router->put('taches/{id}', ['uses' => 'TacheController@update']);
-
-    // Fermeture ou Ouverture d'une tâche
-    $router->put('taches/{id}/complet', ['uses' => 'TacheController@completed']);
-
-
     //inscription
-    // api/register
     $router->post('register', 'AuthController@register');
     // api/login
     $router->post('login', 'AuthController@login');
@@ -50,8 +31,27 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     // api/me
     $router->post('me', 'AuthController@me');
 
+    $router->group(['prefix' => 'taches'], function () use ($router) {
 
+        // Toutes les tâches
+        $router->get('', ['uses' => 'TacheController@showAllTasks']);
 
+        // Détail d'une tâche, doit être propriétaire
+        $router->get('/{id}', ['middleware' => 'mustBeOwnerOfTache', 'uses' => 'TacheController@showOneTask']);
 
+        // Ajout d'une tâche
+        $router->post('', ['uses' => 'TacheController@create']);
 
+        // Suppression d'une tâche, doit être propriétaire
+        $router->delete('/{id}', ['middleware' => 'mustBeOwnerOfTache', 'uses' => 'TacheController@delete']);
+
+        // Modification d'une tâche, doit être propriétaire
+        $router->put('/{id}', ['middleware' => 'mustBeOwnerOfTache', 'uses' => 'TacheController@update']);
+
+        // Fermeture ou Ouverture d'une tâche, doit être proprétaire
+        $router->put('/{id}/complet', ['middleware' => 'mustBeOwnerOfTache', 'uses' => 'TacheController@completed']);
+
+    });
 });
+
+

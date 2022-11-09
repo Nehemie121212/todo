@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TacheController extends Controller
 {
@@ -50,7 +51,9 @@ class TacheController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, Tache::validateRules());
-        return Tache::create($request->all());
+        $data = $request->all();
+        $data['utilisateur_id'] = Auth::user()->id;
+        return Tache::create($data);
     }
 
     /**
@@ -97,5 +100,7 @@ class TacheController extends Controller
         $task->update();
         return Tache::findOrFail($id);
     }
+
+
 
 }
